@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_to_do_app_using_bloc/blocs/bloc_exports.dart';
 
 import '../../models/tasks.dart';
 
@@ -9,7 +10,7 @@ part 'tasks_event.dart';
 
 part 'tasks_state.dart';
 
-class TasksBloc extends Bloc<TasksEvent, TasksState> {
+class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
   TasksBloc() : super(const TasksState()) {
     onAddTask(AddTask event, Emitter<TasksState> emit) {
       final state = this.state;
@@ -53,4 +54,15 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     on<UpdateTask>(onUpdateTask);
     on<DeleteTask>(onDeleteTask);
   }
+
+  @override
+  TasksState? fromJson(Map<String, dynamic> json) {
+    return TasksState.fromMap(json);
+  }
+
+  @override
+  Map<String, dynamic>? toJson(TasksState state) {
+    return state.toMap();
+  }
+  
 }
